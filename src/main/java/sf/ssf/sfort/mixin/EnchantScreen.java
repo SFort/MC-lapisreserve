@@ -46,6 +46,9 @@ public class EnchantScreen extends ScreenHandler{
 		tag.add(compoundTag);
 		player.inventory.deserialize(tag);
 		super.close(player);
+		this.context.run((world, blockPos) -> {
+			player.inventory.offerOrDrop(world, this.slots.get(0).getStack());;
+		});
 		info.cancel();
 	}
 
