@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "sf.ssf.sfort.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "PlayerReserve",
+    "EnchantScreen"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

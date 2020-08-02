@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "lapisreserve",
+  "version": "${version}",
+
+  "name": "Lapis Reserve",
+  "description": "Gives every player their own Lapis Reserve for enchanting",
+  "authors": [
+    "SFort"
+  ],
+  "contact": {
+    "sources": "https://github.com/SFort/MC-lapisreserve"
+  },
+
+  "license": "MIT",
+
+  "environment": "*",
+  "mixins": [
+    "lapisreserve.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": "*",
+    "fabric": "*",
+    "minecraft": "*"
+  }
+}
