@@ -14,6 +14,7 @@ import net.minecraft.screen.ScreenHandlerType;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Surrogate;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 //TODO This is some of the hackiest shit i've ever coded, access to lapisreserve in playerInv needs to be redone
@@ -51,9 +52,8 @@ public class EnchantScreen extends ScreenHandler{
 		});
 		info.cancel();
 	}
-
-	@Override
+	@Surrogate
 	public boolean canUse(PlayerEntity player) {
-		return canUse(this.context, player, Blocks.ENCHANTING_TABLE);
+		return false;
 	}
 }
