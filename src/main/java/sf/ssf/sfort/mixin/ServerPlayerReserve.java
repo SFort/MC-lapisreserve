@@ -22,7 +22,7 @@ public class ServerPlayerReserve extends PlayerEntity {
 	public ServerPlayerReserve(World world, BlockPos blockPos, GameProfile gameProfile) {
 		super(world, blockPos, gameProfile);
 	}
-	//TODO i really need a better way todo this
+	//TODO i really need a better way todo this x2
 	@Inject(method = "copyFrom",at=@At("TAIL"))
 	public void copyFrom(ServerPlayerEntity oldPlayer, boolean alive, CallbackInfo info) {
 		if (!alive){
@@ -32,6 +32,7 @@ public class ServerPlayerReserve extends PlayerEntity {
 				if (compoundTag.contains("LapisReserve")){
 					ListTag tag= new ListTag();
 					tag.add(compoundTag);
+					this.inventory.serialize(tag);
 					this.inventory.deserialize(tag);
 					break;
 				}
