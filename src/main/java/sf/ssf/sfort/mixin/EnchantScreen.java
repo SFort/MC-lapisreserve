@@ -46,7 +46,7 @@ public class EnchantScreen extends ScreenHandler{
 		compoundTag.putByte("LapisReserve", (byte)0);
 		this.slots.get(1).getStack().toTag(compoundTag);
 		for(int i = 0; i < tag.size(); ++i) {
-			if (compoundTag.contains("LapisReserve")) {
+			if (tag.getCompound(i).contains("LapisReserve")) {
 				tag.set(i,compoundTag);
 				break;
 			}
