@@ -1,6 +1,5 @@
 package sf.ssf.sfort.mixin;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -11,7 +10,8 @@ import net.minecraft.screen.EnchantmentScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.ScreenHandlerType;
-import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Surrogate;
@@ -35,16 +35,22 @@ public class EnchantScreen extends ScreenHandler{
 				ItemStack lapis =ItemStack.fromTag(compoundTag);
 				//this.inventory.setStack(1,lapis);
 				this.slots.get(1).setStack(lapis);
+				break;
 			}
 		}
 	}
 	@Inject(method="close", at=@At("HEAD"), cancellable = true)
 	public void close(PlayerEntity player, CallbackInfo info) {
-		ListTag tag= new ListTag();
+		ListTag tag= player.inventory.serialize(new ListTag());
 		CompoundTag compoundTag = new CompoundTag();
-		compoundTag.putByte("LapisReserveWRITE", (byte)0);
+		compoundTag.putByte("LapisReserve", (byte)0);
 		this.slots.get(1).getStack().toTag(compoundTag);
-		tag.add(compoundTag);
+		for(int i = 0; i < tag.size(); ++i) {
+			if (compoundTag.contains("LapisReserve")) {
+				tag.set(i,compoundTag);
+				break;
+			}
+		}
 		player.inventory.deserialize(tag);
 		super.close(player);
 		this.context.run((world, blockPos) -> {

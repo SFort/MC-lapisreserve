@@ -30,10 +30,7 @@ public class PlayerReserve {
 			if (compoundTag.contains("LapisReserve")){
 				lapisreserve = ItemStack.fromTag(compoundTag);
 				tag.remove(i);
-			}
-			if (compoundTag.contains("LapisReserveWRITE")){
-				lapisreserve = ItemStack.fromTag(compoundTag);
-				info.cancel();
+				break;
 			}
 		}
 	}
