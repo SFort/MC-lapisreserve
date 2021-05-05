@@ -1,0 +1,20 @@
+modLoader = "javafml" #mandatory
+loaderVersion = "[28,)" #mandatory (28 is current forge version)
+
+license = "MIT License"
+[[mods]] #mandatory
+modId = "lapisreserve"
+version = "${file.jarVersion}" #mandatory
+displayName = "lapisreserve" #mandatory
+displayURL="http://sfort.ssf.tf/"
+authors = "sfort"
+credits = "Original Forge port made by reo-ar at https://github.com/reo-ar/TableTweaks"
+description = '''
+mod by someone to lazy to write descriptions
+'''
+[[dependencies.tabletweaks]]
+modId = "minecraft"
+mandatory = true
+versionRange = "*"
+ordering = "NONE"
+side = "BOTH"
