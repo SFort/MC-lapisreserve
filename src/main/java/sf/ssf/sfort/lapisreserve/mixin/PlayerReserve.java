@@ -10,9 +10,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import sf.ssf.sfort.lapisreserve.PlayerInterface;
 
 @Mixin(PlayerInventory.class)
-public class PlayerReserve {
+public class PlayerReserve implements PlayerInterface {
 	@Dynamic
 	public ItemStack lapisreserve = ItemStack.EMPTY;
 
@@ -34,4 +35,6 @@ public class PlayerReserve {
 			}
 		}
 	}
+	@Override public ItemStack getLapisreserve(){ return lapisreserve; }
+	@Override public void setLapisreserve(ItemStack stack) { lapisreserve = stack; }
 }

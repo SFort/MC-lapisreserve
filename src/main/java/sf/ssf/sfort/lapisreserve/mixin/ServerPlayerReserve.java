@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import sf.ssf.sfort.lapisreserve.PlayerInterface;
 
 @Mixin(ServerPlayerEntity.class)
 public abstract class ServerPlayerReserve extends PlayerEntity {
@@ -19,21 +20,6 @@ public abstract class ServerPlayerReserve extends PlayerEntity {
 	}
 	@Inject(method = "copyFrom",at=@At("TAIL"))
 	public void copyFrom(ServerPlayerEntity oldPlayer, boolean alive, CallbackInfo info) {
-			ListNBT tags = oldPlayer.inventory.write(new ListNBT());
-			for(int i = 0; i < tags.size(); ++i) {
-				CompoundNBT compoundTag = tags.getCompound(i);
-				if (compoundTag.contains("LapisReserve")){
-					ListNBT tag= this.inventory.write(new ListNBT());
-					for(int j = 0; j < tag.size(); ++j) {
-						CompoundNBT compoundTagj = tag.getCompound(j);
-						if (compoundTagj.contains("LapisReserve")) {
-						tag.set(j,compoundTag);
-						break;
-						}
-					}
-					this.inventory.read(tag);
-					break;
-				}
-			}
+		((PlayerInterface)inventory).setLapisreserve(((PlayerInterface)oldPlayer.inventory).getLapisreserve());
 	}
 }
