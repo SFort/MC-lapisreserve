@@ -31,7 +31,7 @@ public abstract class EnchantScreen extends ScreenHandler{
 	}
 	@Inject(method="close(Lnet/minecraft/entity/player/PlayerEntity;)V", at=@At("HEAD"), cancellable = true)
 	public void close(PlayerEntity player, CallbackInfo info) {
-		((PlayerInterface)player.inventory).setLapisreserve(slots.get(1).getStack());
+		((PlayerInterface)player.getInventory()).setLapisreserve(slots.get(1).getStack());
 		slots.get(1).setStack(ItemStack.EMPTY);
 	}
 }
