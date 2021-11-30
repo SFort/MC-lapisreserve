@@ -1,4 +1,4 @@
-package sf.ssf.sfort.mixin;
+package tf.ssf.sfort.lapisreserve.mixin;
 
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import sf.ssf.sfort.PlayerInterface;
+import tf.ssf.sfort.lapisreserve.PlayerInterface;
 
 @Mixin(PlayerInventory.class)
 public class PlayerReserve implements PlayerInterface {

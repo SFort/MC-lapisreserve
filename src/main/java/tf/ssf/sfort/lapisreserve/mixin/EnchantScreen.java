@@ -1,4 +1,4 @@
-package sf.ssf.sfort.mixin;
+package tf.ssf.sfort.lapisreserve.mixin;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import sf.ssf.sfort.PlayerInterface;
+import tf.ssf.sfort.lapisreserve.PlayerInterface;
 
 @Mixin(EnchantmentScreenHandler.class)
 public abstract class EnchantScreen extends ScreenHandler{

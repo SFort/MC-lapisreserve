@@ -1,4 +1,4 @@
-package sf.ssf.sfort;
+package tf.ssf.sfort.lapisreserve;
 
 import net.minecraft.item.ItemStack;
 
