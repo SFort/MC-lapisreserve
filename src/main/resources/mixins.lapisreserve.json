@@ -1,0 +1,15 @@
+{
+    "required": true,
+    "minVersion": "0.5.3",
+    "package": "tf.ssf.sfort.lapisreserve.mixin",
+    "compatibilityLevel": "JAVA_8",
+    "refmap": "mixins.lapisreserve.refmap.json",
+    "mixins": [
+        "EnchantScreen",
+        "PlayerReserve",
+        "ServerPlayerReserve"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

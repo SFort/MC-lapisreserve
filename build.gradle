@@ -1,37 +1,60 @@
-plugins {
-	id 'fabric-loom' version '0.10-SNAPSHOT'
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+        maven {
+            name = "forge"
+            url = "https://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = 'sponge'
+            url = 'https://repo.spongepowered.org/maven'
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:' + project.forgeGradleVersion
+        classpath 'org.spongepowered:mixingradle:0.5-SNAPSHOT'
+    }
 }
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
+apply plugin: 'net.minecraftforge.gradle.liteloader'
+apply plugin: 'org.spongepowered.mixin'
 
-archivesBaseName = project.archives_base_name
-version = project.mod_version
-group = project.maven_group
+group = "tf.ssf.sfort.lapisreserve" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "lapisreserve"
 
-dependencies {
-	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+minecraft {
+    // these values are defined in the gradle.properties file, so that this file does not need to be altered
+    version = project.mcVersion
+    mappings = project.mcMappings
+    runDir = "run"
 }
 
-processResources {
-	inputs.property "version", project.version
-
-	filesMatching("fabric.mod.json") {
-		expand "version": project.version
-	}
+sourceSets {
+    main {
+        // Refmap declaration must match the refmap name specified in the json config
+        ext.refMap = "mixins.lapisreserve.refmap.json"
+    }
 }
 
-tasks.withType(JavaCompile) {
-	options.encoding = "UTF-8"
+mixin {
+    // liteloader does not do runtime deobfuscation, so in production we use "notch names", mixin needs to know this
+    defaultObfuscationEnv notch
 }
-java {
-	withSourcesJar()
+
+litemod {
+    json {
+        name = "lapisreserve"
+        description = "Lapis Reserve"
+        mixinConfigs += "mixins.lapisreserve.json"
+    }
 }
 
 jar {
-	from("LICENSE") {
-		rename { "${it}_${project.archivesBaseName}"}
-	}
+    // The litemod task above generates the litemod.json dynamically, you can replace it with a resource if you want more control
+    from litemod.outputs
 }

@@ -1,37 +1,31 @@
 package tf.ssf.sfort.lapisreserve.mixin;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventory;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ContainerEnchantment;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.screen.EnchantmentScreenHandler;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.ScreenHandlerContext;
-import net.minecraft.screen.ScreenHandlerType;
-import org.spongepowered.asm.mixin.Final;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import tf.ssf.sfort.lapisreserve.PlayerInterface;
 
-@Mixin(EnchantmentScreenHandler.class)
-public abstract class EnchantScreen extends ScreenHandler{
-	@Shadow @Final @Mutable
-	private final ScreenHandlerContext context;
-	protected EnchantScreen(ScreenHandlerType<?> type, int syncId, Inventory inventory, ScreenHandlerContext context) {
-		super(type, syncId);
-		this.context = context;
+@Mixin(ContainerEnchantment.class)
+public abstract class EnchantScreen extends Container {
+	@Shadow public IInventory tableInventory;
+
+	@Inject(method="<init>(Lnet/minecraft/entity/player/InventoryPlayer;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)V", at=@At("RETURN"))
+	public void open(InventoryPlayer p_i45798_1_, World p_i45798_2_, BlockPos p_i45798_3_, CallbackInfo ci) {
+		tableInventory.setInventorySlotContents(1, ((PlayerInterface)p_i45798_1_).getLapisreserve());
 	}
-	@Inject(method="<init>(ILnet/minecraft/entity/player/PlayerInventory;Lnet/minecraft/screen/ScreenHandlerContext;)V", at=@At("RETURN"))
-	public void open(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context, CallbackInfo info) {
-		slots.get(1).setStack(((PlayerInterface)playerInventory).getLapisreserve());
-	}
-	@Inject(method="close(Lnet/minecraft/entity/player/PlayerEntity;)V", at=@At("HEAD"), cancellable = true)
-	public void close(PlayerEntity player, CallbackInfo info) {
-		((PlayerInterface)player.getInventory()).setLapisreserve(slots.get(1).getStack());
-		slots.get(1).setStack(ItemStack.EMPTY);
+	@Inject(method= "onContainerClosed(Lnet/minecraft/entity/player/EntityPlayer;)V", at=@At("HEAD"))
+	public void close(EntityPlayer player, CallbackInfo info) {
+		((PlayerInterface)player.inventory).setLapisreserve(tableInventory.getStackInSlot(1));
+		tableInventory.setInventorySlotContents(1, ItemStack.EMPTY);
 	}
 }
