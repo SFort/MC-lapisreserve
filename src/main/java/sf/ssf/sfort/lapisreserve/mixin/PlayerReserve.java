@@ -1,9 +1,9 @@
 package sf.ssf.sfort.lapisreserve.mixin;
 
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -12,24 +12,24 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import sf.ssf.sfort.lapisreserve.PlayerInterface;
 
-@Mixin(PlayerInventory.class)
+@Mixin(Inventory.class)
 public class PlayerReserve implements PlayerInterface {
 	@Dynamic
 	public ItemStack lapisreserve = ItemStack.EMPTY;
 
-	@Inject(method = "write",at=@At("HEAD"))
-	public void serialize(ListNBT tag, CallbackInfoReturnable info) {
-		CompoundNBT compoundTag = new CompoundNBT();
+	@Inject(method = "save",at=@At("HEAD"))
+	public void serialize(ListTag tag, CallbackInfoReturnable<ListTag> cir) {
+		CompoundTag compoundTag = new CompoundTag();
 		compoundTag.putByte("LapisReserve", (byte)0);
-		lapisreserve.write(compoundTag);
+		lapisreserve.save(compoundTag);
 		tag.add(compoundTag);
 	}
-	@Inject(method = "read",at=@At("HEAD"),cancellable = true)
-	public void deserialize(ListNBT tag, CallbackInfo info) {
+	@Inject(method = "load",at=@At("HEAD"))
+	public void deserialize(ListTag tag, CallbackInfo ci) {
 		for(int i = 0; i < tag.size(); ++i) {
-			CompoundNBT compoundTag = tag.getCompound(i);
+			CompoundTag compoundTag = tag.getCompound(i);
 			if (compoundTag.contains("LapisReserve")){
-				lapisreserve = ItemStack.read(compoundTag);
+				lapisreserve = ItemStack.of(compoundTag);
 				tag.remove(i);
 				break;
 			}

@@ -1,27 +1,29 @@
 buildscript {
     repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
+        maven { url = 'https://maven.minecraftforge.net' }
         mavenCentral()
         maven { url = 'https://repo.spongepowered.org/maven' }
 
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
+plugins {
+   id 'idea'
+}
 apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'idea'
+apply plugin: 'org.spongepowered.mixin'
 
 version = "${mod_version}"
 group = "sf.ssf.sfort.${modid}"
 archivesBaseName = "${modid}"
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = JavaLanguageVersion.of(17)
 
 minecraft {
-    mappings channel: "snapshot", version: "${mapping}-${mcp_version}"
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    mappings channel: "official", version: "1.18.2"
     runs {
         client {
             workingDirectory project.file('run')
@@ -50,21 +52,18 @@ minecraft {
 }
 
 repositories {
-    maven {
-        name = "Progwml6 maven"
-        url = "https://dvs1.progwml6.com/files/maven/"
-    }
-    maven {
-        name = "ModMaven"
-        url = "https://modmaven.k-4u.nl"
-    }
-    jcenter()
     mavenCentral()
 
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}" //21
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+}
+
+mixin {
+    add sourceSets.main, 'lapisreserve.refmap.json'
+    config 'lapisreserve.mixins.json'
 }
 
 jar {
