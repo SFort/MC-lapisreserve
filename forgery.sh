@@ -12,5 +12,8 @@ pushd forgery
 cp shadow/build/libs/out.jar "$forgeryIn"
 ./gradlew clean build
 popd
-java -jar ~/ForgeryTools.jar "$forgeryIn" out.jar ~/.gradle/caches/fabric-loom/mappings/intermediary-1.17.1-v2.tiny ~/.gradle/caches/forge_gradle/minecraft_repo/versions/1.17.1/mcp_mappings.tsrg ./forgery/build/libs/lapisreserve.jar ~/.gradle/caches/fabric-loom/minecraft-1.17.1-intermediary-net.fabricmc.yarn-1.17.1+build.5-v2.jar tf.ssf.sfort.lapisreserve
+echo "\nNOTICE: Do not let forgery fool you it _IS_ a magic fabric to forge bullet that solves all my problems\n"
+tsrg="$tmp/mcp_mappings.tsrg"
+tail -n +2 ~/.gradle/caches/forge_gradle/minecraft_repo/versions/1.18.1/mcp_mappings.tsrg | sed -E '/^\s+static/d' | sed -E 's/ [0-9]+$//' > $tsrg
+java -jar ~/ForgeryTools.jar "$forgeryIn" out.jar ~/.gradle/caches/fabric-loom/1.18/net.fabricmc.yarn.1_18.1.18+build.1-v2/mappings.tiny $tsrg ./forgery/build/libs/lapisreserve.jar ~/.gradle/caches/fabric-loom/1.18/net.fabricmc.yarn.1_18.1.18+build.1-v2/minecraft-intermediary.jar tf.ssf.sfort.lapisreserve
 rm -rf $tmp
