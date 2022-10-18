@@ -4,9 +4,8 @@
   "package": "tf.ssf.sfort.lapisreserve.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "PlayerReserve",
     "EnchantScreen",
-    "ServerPlayerReserve"
+    "EnchantTable"
   ],
   "client": [
   ],
