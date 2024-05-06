@@ -23,6 +23,7 @@ public class PlayerReserve implements PlayerInterface {
 
 	@Inject(method = "writeNbt(Lnet/minecraft/nbt/NbtList;)Lnet/minecraft/nbt/NbtList;",at=@At("HEAD"))
 	public void serialize(NbtList tag, CallbackInfoReturnable<NbtList> info) {
+		if (lapisreserve.isEmpty()) return;
 		NbtCompound compoundTag = new NbtCompound();
 		compoundTag.putByte("LapisReserve", (byte)0);
 		tag.add(lapisreserve.encode(this.player.getRegistryManager(), compoundTag));
